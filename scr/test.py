@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
 
-path="data/plantaciones.xls"
-
-data=pd.read_excel(path)
-print(data)
+df=pd.DataFrame(pd.read_csv("data/data_plantaciones.csv",delimiter=";"))
+print(df)
