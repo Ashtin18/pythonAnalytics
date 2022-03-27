@@ -11,7 +11,7 @@ from PIL import Image
 st.title('Reporte Python Analytics')
 
 DATE_COLUMN = "Departure.Date"
-DATA_URL = (r"C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\data.csv")
+DATA_URL = ("C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\data.csv")
 
 @st.cache(allow_output_mutation=True)
 def load_data(nrows):
