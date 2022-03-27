@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+math
+matplotlib.pyplot
+seaborn
+geopandas
+seaborn
+datetime
+PIL
