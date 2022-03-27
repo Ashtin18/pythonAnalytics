@@ -45,7 +45,7 @@ code='''
 st.code(code, language='python')
 
 st.text("Una vez realizada la limpieza de datos se contruyó la \nsiguiente matríz de correlación: ")
-image = Image.open('C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Matriz de Correlación.png')
+image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Matriz de Correlación.png')
 st.image(image, caption='Matríz de Correlación')
 
 st.text("\n")
@@ -68,7 +68,7 @@ st.dataframe(conteo_x_state)
 st.text("\n")
 st.text("\nFinalmente, se calculó un Mapa de Calor con los viajes registrados:")
 
-image = Image.open('C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Mapa de Calor.png')
+image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Mapa de Calor.png')
 st.image(image, caption='Mapa de Calor')
 
 
@@ -82,7 +82,7 @@ code='''
 st.code(code, language='python')
 a=(data['Retained.in.2012.'].value_counts(normalize=True)*100).rename({0:"No Retenido (%):",1:"Retenido (%):"})
 st.dataframe(a)
-image = Image.open('C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico de barras.png')
+image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico de barras.png')
 st.image(image, caption='Gráfico - Escuelas Retenidas x Clasificación de Pobreza')
 
 st.text("A continuación comprobaremos, mediante chi cuadrado, la existencia de una\ndependencia entre ambas variables:\n\nEn primer lugar calculamos una tabla de contingencia, donde:")
@@ -123,7 +123,7 @@ st.markdown("El porcentaje de retorno en escuelas Católicas es: **65.03%**")
 st.markdown("El porcentaje de retorno en escuelas Públicas es: **59.02%**")
 st.markdown("El porcentaje de retorno en escuelas Privadas no Cristianas es: **73.51%**")
 
-image = Image.open('C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico de barras 2.png')
+image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico de barras 2.png')
 st.image(image, caption='Gráfico de Barras - Cantidad de Escielas Retenidas x Tipo de Escuela')
 
 st.text("De igual manera, comprobaremos mediante chi cuadrado, la existencia de una\ndependencia entre ambas variables:")
@@ -153,5 +153,5 @@ st.subheader("¿Qué meses del año presentan mayor número de viajes?")
 st.text("Fechas con más viajes registrados: ")
 st.text("7/06/2011\t131\n6/06/2011\t72\n14/06/201\t72\n14/06/2011\t72\n31/05/2011\t70\n1/06/2011\t70")
 
-image = Image.open('C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico linea.png')
+image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico linea.png')
 st.image(image, caption='Gráfico Lineal - Cantidad de Viajes registrados x Mes(Enero a Julio)')
