@@ -71,7 +71,7 @@ st.header("\nPreguntas de Exploración:")
 st.subheader("¿Cúales son las regiones con mejor aceptación al servicio de STC?")
 st.text("\nTratando los data, se logró calcular la siguiente tabla:\n")
 
-path=r"C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\shp\\Estados_Unidos_Estados.shp"
+path=r"C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\shp\\shp.zip"
 
 gdf_states = gpd.read_file(path)
 
