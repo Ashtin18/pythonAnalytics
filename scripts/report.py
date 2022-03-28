@@ -12,7 +12,7 @@ from PIL import Image
 st.title('Reporte Python Analytics')
 
 uploaded_file = st.file_uploader("Choose a file:")
-path=r"C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\shp\\Estados_Unidos_Estados.shp"
+
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file, delimiter=";")
 
@@ -70,6 +70,8 @@ st.header("\nPreguntas de Exploración:")
 
 st.subheader("¿Cúales son las regiones con mejor aceptación al servicio de STC?")
 st.text("\nTratando los data, se logró calcular la siguiente tabla:\n")
+
+path=r"C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\shp\\Estados_Unidos_Estados.shp"
 
 gdf_states = gpd.read_file(path)
 
