@@ -18,7 +18,7 @@ DATA_URL = "https://github.com/Ashtin18/pythonAnalytics/blob/master/data/data.cs
 
 @st.cache
 def load_data(nrows):
-    data = pd.read_csv(DATA_URL, delimiter=";")
+    data = pd.read_csv(DATA_URL, nrows=nrows, delimiter=";")
     return data
 
 data_load_state = st.text("Loading data...")
