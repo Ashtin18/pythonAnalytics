@@ -11,18 +11,21 @@ from PIL import Image
 
 st.title('Reporte Python Analytics')
 
+path=("https://raw.githubusercontent.com/Ashtin18/pythonAnalytics/master/data/data.csv")
 path_shp = st.file_uploader("Choose a .shp zip:")
 
-DATA_URL = ("https://github.com/"
-            "Ashtin18/pythonAnalytics/blob/master/data/data.csv")
 
 @st.cache
-def load_data():
-    data = pd.read_csv(DATA_URL, delimiter=";")
+
+
+def load_data(nrows):
+    data = pd.read_csv(path, nrows=nrows,delimiter=";")
+    lowercase = lambda x: str(x).lower()
+    data.rename(lowercase, axis="columns",inplace=True)
     return data
 
 data_load_state = st.text("Loading data...")
-data = load_data()
+data = load_data(10000)
 data_load_state.text("Done! (using st.cache)")
 
 if st.checkbox('Mostar Datos'):
