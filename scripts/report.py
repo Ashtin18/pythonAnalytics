@@ -12,7 +12,7 @@ from PIL import Image
 st.title('Reporte Python Analytics')
 
 path=("https://raw.githubusercontent.com/Ashtin18/pythonAnalytics/master/data/data.csv")
-path_shp = st.file_uploader("Choose a .shp zip:")
+path_shp = ("https://github.com/Ashtin18/pythonAnalytics/blob/master/data/shp/shp.zip")
 
 
 @st.cache
