@@ -17,8 +17,8 @@ path_shp = st.file_uploader("Choose a .shp zip:")
 DATA_URL = "https://github.com/Ashtin18/pythonAnalytics/blob/master/data/data.csv"
 
 @st.cache
-def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows, delimiter=";")
+def load_data():
+    data = pd.read_csv(DATA_URL, delimiter=";")
     return data
 
 data_load_state = st.text("Loading data...")
