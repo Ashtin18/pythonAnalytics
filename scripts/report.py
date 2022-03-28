@@ -15,7 +15,7 @@ path=("https://raw.githubusercontent.com/Ashtin18/pythonAnalytics/master/data/da
 path_shp = ("https://raw.githubusercontent.com/Ashtin18/pythonAnalytics/master/data/shp/shp.zip")
 
 
-@st.cache
+@st.cache(allow_output_mutation=True)
 
 
 def load_data(nrows):
