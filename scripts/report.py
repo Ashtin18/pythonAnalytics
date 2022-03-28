@@ -13,7 +13,8 @@ st.title('Reporte Python Analytics')
 
 path_shp = st.file_uploader("Choose a .shp zip:")
 
-DATA_URL = "https://github.com/Ashtin18/pythonAnalytics/blob/master/data/data.csv"
+DATA_URL = ("https://github.com/"
+            "Ashtin18/pythonAnalytics/blob/master/data/data.csv")
 
 @st.cache
 def load_data():
