@@ -12,7 +12,7 @@ from PIL import Image
 st.title('Reporte Python Analytics')
 
 uploaded_file = st.file_uploader("Choose a file:")
-path=st.file_uploader("Archivo .shp:")
+path=r"C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\shp\\Estados_Unidos_Estados.shp"
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file, delimiter=";")
 
