@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -10,22 +11,16 @@ from PIL import Image
 
 st.title('Reporte Python Analytics')
 
-DATE_COLUMN = "Departure.Date"
-DATA_URL = ("C:\\Users\\ashti\\Documents\\pythonAnalytics\\data\\data.csv")
-
-@st.cache(allow_output_mutation=True)
-def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows, delimiter=";")
-    return data
-
-data_load_state = st.text('Loading data...')
-data = load_data(10000)
-data_load_state.text("Done! (using st.cache)")
+uploaded_file = st.file_uploader("Choose a file:")
+path=st.file_uploader("Archivo .shp:")
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file, delimiter=";")
 
 if st.checkbox('Mostar Datos'):
     st.text('Datos Crudos')
     st.write(data)
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 #####################################################################################################
 
@@ -45,8 +40,24 @@ code='''
 st.code(code, language='python')
 
 st.text("Una vez realizada la limpieza de datos se contruyó la \nsiguiente matríz de correlación: ")
-image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Matriz de Correlación.png')
-st.image(image, caption='Matríz de Correlación')
+
+
+matriz_correlacion_var=["Days","NumberOfMeetingswithParents","Tuition","FRP.Take.up.percent.","SPR.Group.Revenue","MDR.High.Grade"]
+
+corr_matrix = data[matriz_correlacion_var].corr()
+
+plt.matshow(corr_matrix, cmap='coolwarm', vmin=-1, vmax=1)
+
+plt.xticks(np.arange(corr_matrix.shape[0]), corr_matrix.columns, rotation=90)
+plt.yticks(np.arange(corr_matrix.shape[0]), corr_matrix.columns)
+
+plt.colorbar()
+
+st.pyplot()
+
+
+
+
 
 st.text("\n")
 st.text("\n\nAnalizando la matriz anterior, podemos corroborar ciertas relaciones entre las \nvariables relevantes del presente estudio. A raiz de estas conjeturas se han\nlogrado plantear las siguientes preguntas exploratorias:")
@@ -60,6 +71,8 @@ st.header("\nPreguntas de Exploración:")
 st.subheader("¿Cúales son las regiones con mejor aceptación al servicio de STC?")
 st.text("\nTratando los data, se logró calcular la siguiente tabla:\n")
 
+gdf_states = gpd.read_file(path)
+
 conteo_x_state = data['Group.State'].value_counts()
 conteo_x_state = conteo_x_state.reset_index()
 
@@ -68,8 +81,14 @@ st.dataframe(conteo_x_state)
 st.text("\n")
 st.text("\nFinalmente, se calculó un Mapa de Calor con los viajes registrados:")
 
-image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Mapa de Calor.png')
-st.image(image, caption='Mapa de Calor')
+gdf_conteo_x_state = pd.merge(left=gdf_states, right=conteo_x_state,
+                                left_on="STATE_ABBR",right_on="index")
+
+gdf_conteo_x_state.plot("Group.State", cmap='cool',
+                       legend=True,figsize=(10, 5))
+
+
+st.pyplot()
 
 
 #####################################################################################################
@@ -82,8 +101,20 @@ code='''
 st.code(code, language='python')
 a=(data['Retained.in.2012.'].value_counts(normalize=True)*100).rename({0:"No Retenido (%):",1:"Retenido (%):"})
 st.dataframe(a)
-image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico de barras.png')
-st.image(image, caption='Gráfico - Escuelas Retenidas x Clasificación de Pobreza')
+
+conteo_poberty_x_retained = (data[["Poverty.Code","Retained.in.2012."]]
+                                .groupby(["Poverty.Code","Retained.in.2012."]).size()
+                                .reset_index()
+                                .rename({0:"conteo"},axis=1)
+                            )
+
+
+g = sns.catplot(
+    data=conteo_poberty_x_retained, kind="bar",
+    x="Poverty.Code", y="conteo", hue="Retained.in.2012.",
+)
+g.set_xticklabels()
+st.pyplot()
 
 st.text("A continuación comprobaremos, mediante chi cuadrado, la existencia de una\ndependencia entre ambas variables:\n\nEn primer lugar calculamos una tabla de contingencia, donde:")
 st.text("0: Escuela No Retenida para el 2012\n1: Escuela Retenida para el 2012")
@@ -123,8 +154,24 @@ st.markdown("El porcentaje de retorno en escuelas Católicas es: **65.03%**")
 st.markdown("El porcentaje de retorno en escuelas Públicas es: **59.02%**")
 st.markdown("El porcentaje de retorno en escuelas Privadas no Cristianas es: **73.51%**")
 
-image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico de barras 2.png')
-st.image(image, caption='Gráfico de Barras - Cantidad de Escielas Retenidas x Tipo de Escuela')
+
+# Gráfica.....
+
+conteo_type_x_retained = (data[["School.Type","Retained.in.2012."]]
+                                .groupby(["School.Type","Retained.in.2012."]).size()
+                                .reset_index()
+                                .rename({0:"conteo"},axis=1)
+                            )
+
+g = sns.catplot(
+    data=conteo_type_x_retained, kind="bar",
+    x="School.Type", y="conteo", hue="Retained.in.2012.",
+)
+g.set_xticklabels(rotation=90)
+
+st.pyplot()
+
+# ...
 
 st.text("De igual manera, comprobaremos mediante chi cuadrado, la existencia de una\ndependencia entre ambas variables:")
 
@@ -153,5 +200,10 @@ st.subheader("¿Qué meses del año presentan mayor número de viajes?")
 st.text("Fechas con más viajes registrados: ")
 st.text("7/06/2011\t131\n6/06/2011\t72\n14/06/201\t72\n14/06/2011\t72\n31/05/2011\t70\n1/06/2011\t70")
 
-image = Image.open(r'C:\\Users\\ashti\\Documents\\pythonAnalytics\\fig\\Grafico linea.png')
-st.image(image, caption='Gráfico Lineal - Cantidad de Viajes registrados x Mes(Enero a Julio)')
+data["Departure.Date.Mod"] = pd.to_datetime(data["Departure.Date"], format='%d/%m/%Y').dt.month
+
+data["Departure.Date.Mod"].value_counts().sort_index().plot()
+
+plt.grid(True)
+
+st.pyplot()
