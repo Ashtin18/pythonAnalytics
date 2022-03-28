@@ -20,8 +20,6 @@ path_shp = ("https://github.com/Ashtin18/pythonAnalytics/blob/master/data/shp/sh
 
 def load_data(nrows):
     data = pd.read_csv(path, nrows=nrows,delimiter=";")
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis="columns",inplace=True)
     return data
 
 data_load_state = st.text("Loading data...")
